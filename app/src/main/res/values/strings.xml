@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Printer</string>
+    <string name="action_settings">Settings</string>
+    <string name="code_content">Code content:</string>
+    <string name="please_input_content_to_generate_barcode">Please input content to generate barcode</string>
+    <string name="height_of_the_image">Image High:</string>
+    <string name="width_of_the_image">Image Width:</string>
+    <string name="generate_barcode"> 1D code</string>
+    <string name="generate_qrcode"> QRcode</string>
+    <string name="select_image">Choose Picture</string>
+    <string name="magin_left">Left margin:</string>
+    <string name="print_density">concentration:</string>
+    <string name="print">Print</string>
+    <string name="print_success">print success</string>
+    <string name="print_no_paper">No paper!</string>
+    <string name="print_failed">Print failed!</string>
+    <string name="print_voltate_low">Low voltate</string>
+    <string name="print_voltate_high">High voltate</string>
+    <string name="tips">Tip</string>
+    <string name="close">Close</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
+</resources>

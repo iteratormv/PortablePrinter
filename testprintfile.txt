@@ -1,0 +1,3 @@
+test print on pl-50
+iterator
+русский язык
