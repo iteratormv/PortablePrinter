@@ -308,27 +308,32 @@ public class PL50_PrintServise extends Service implements onPrintListener {
         new Thread(new Runnable() {
             public void run() {
                 for (int i=1; i <= 10000;i++){
-                    //              int d = Log.d(LOG_TAG, " i = " + i);
-                    //                Toast.makeText(this, i ,Toast.LENGTH_SHORT).show();
                     if(isStoped == true){
                         break;
                     }
-                    //     Log.d(LOG_TAG, " i = " + i + " flag = " + tflag + " id = " + id);
-//commit
                     File f = new File(PATH_SD, FILENAME_SD);
                     File fi = new File(PATH_SD, FILENAME_IMAGE_SD);
                     if (f.exists()&&!f.isDirectory()){
                         Log.d(LOG_TAG,"файл есть");
-
                         printTextWithInput();
-           //             mPosApi.printText(1, new byte[] {0x55, 0x56, 0x51, 0x7e, 0x7e, 0x58}, 6);
                     }else{
                         Log.d(LOG_TAG, "файла нет");
                     }
                     if (fi.exists()&&!f.isDirectory()){
-                        Log.d(LOG_TAG,"файл картинки есть");
+                        try {
+                            TimeUnit.SECONDS.sleep(3);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(fi.canRead()){
+
+                            Log.d(LOG_TAG,"файл картинки есть");
                         printBMP(fi);
-                        //             mPosApi.printText(1, new byte[] {0x55, 0x56, 0x51, 0x7e, 0x7e, 0x58}, 6);
+                        }
+                        else {
+
+                            Log.d(LOG_TAG,"файл картинки есть но не читается");
+                        }
                     }else{
                         Log.d(LOG_TAG, "файла картинки нет");
                     }
