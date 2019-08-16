@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
@@ -307,7 +308,7 @@ public class PL50_PrintServise extends Service implements onPrintListener {
         Toast.makeText(this, "проверка" ,Toast.LENGTH_SHORT).show();
         new Thread(new Runnable() {
             public void run() {
-                for (int i=1; i <= 10000;i++){
+                for (int i=1; i <= 100000;i++){
                     if(isStoped == true){
                         break;
                     }
@@ -320,19 +321,19 @@ public class PL50_PrintServise extends Service implements onPrintListener {
                         Log.d(LOG_TAG, "файла нет");
                     }
                     if (fi.exists()&&!f.isDirectory()){
-                        try {
-                            TimeUnit.SECONDS.sleep(3);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        if(fi.canRead()){
+//                        try {
+//                            TimeUnit.SECONDS.sleep(1);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+                        if(fi.length()>195253){
 
                             Log.d(LOG_TAG,"файл картинки есть");
                         printBMP(fi);
                         }
                         else {
 
-                            Log.d(LOG_TAG,"файл картинки есть но не читается");
+                            Log.d(LOG_TAG,"файл картинки есть но не полный");
                         }
                     }else{
                         Log.d(LOG_TAG, "файла картинки нет");
@@ -506,11 +507,13 @@ public class PL50_PrintServise extends Service implements onPrintListener {
         }
         PrintDataService mData = mSendList.getFirst();
         int type = mData.getPrintType();
+        Log.d(LOG_TAG,mData.getPrintType() + " || " + mData.getConcentration() + " || " +  mData.getData() + " || " + mData.getLeft() + " || " + mData.getWidth() + " || " + mData.getHeight());
         switch (type) {
             case PRINT_TYPE_TEXT:
                 mPosApi.printText(mData.getConcentration(), mData.getData(), mData.getData().length);
                 break;
             case PRINT_TYPE_BMP:
+
                 mPosApi.printImage(mData.getConcentration(), mData.getLeft(), mData.getWidth(),
                         mData.getHeight(), mData.getData());
                 break;
@@ -523,11 +526,14 @@ public class PL50_PrintServise extends Service implements onPrintListener {
     //    String dfdf = PATH_SD + FILENAME_IMAGE_SD;
    //     mBitmap = BitmapFactory.decodeFile(dfdf);
         String dfdf = fi.getAbsolutePath();
+       // fi.c
         mBitmap = BitmapFactory.decodeFile(dfdf);
-
-
+        Log.d(LOG_TAG, mBitmap.toString() + " ||| " + mBitmap.getHeight() + " ||| " + mBitmap.getWidth() + " fl - " + fi.length());
+//        BatteryManager bm = new getSystemService(BATTERY_SERVICE);
+   //     mBitmap.
+        if (mBitmap!=null){
         byte[] printData = BitmapTools.bitmap2PrinterBytes(mBitmap);
-        addBmp(1, 0, mBitmap.getWidth(),
+        addBmp(10, 0, mBitmap.getWidth(),
                 mBitmap.getHeight(), printData);
 //        int mWidth = 150;
 //        int mHeight = 150;
@@ -557,7 +563,11 @@ public class PL50_PrintServise extends Service implements onPrintListener {
         }
         addPrintTextWithSize(1, 1, text);
         print();
-        fi.delete();
+        fi.delete();}
+        else {
+            Log.d(LOG_TAG, "!!!!! bmp null !!!!!");
+            return;
+        }
     }
     public void printNext() {
         log("Print Queue printNext");
